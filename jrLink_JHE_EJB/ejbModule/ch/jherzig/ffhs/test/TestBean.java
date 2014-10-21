@@ -2,6 +2,8 @@ package ch.jherzig.ffhs.test;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * Session Bean implementation class TestBean
@@ -16,11 +18,16 @@ public class TestBean implements TestBeanLocal {
     public TestBean() {
         // TODO Auto-generated constructor stub
     }
+    
+    @PersistenceContext
+    private EntityManager em;
 
+    private Ttest tt;
+    
 	@Override
 	public String sayHello(String msg) {
-		
-		return msg + " : Das TestBean sagt Hallo";
+		tt = em.find(Ttest.class, new Long(1));
+		return msg + " : Das TestBean sagt Hallo | DB ausgabe: "+ tt.getValue();
 	}
 
 }

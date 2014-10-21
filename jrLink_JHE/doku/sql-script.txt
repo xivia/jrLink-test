@@ -1,0 +1,18 @@
+begin;
+
+create sequence seq_tstKey; -- start/increment: 1/1
+
+create table tTest (
+  tstKey    int8 default nextval('seq_tstKey'),
+  tstValue  varchar(100),
+ 
+  constraint pk_tstKey PRIMARY KEY (tstKey)
+);
+
+grant ALL ON tTest TO jrLink_JHE_user;
+grant ALL ON seq_tstKey TO jrLink_JHE_user;
+
+insert into tTest (tstValue) values ('value one');
+insert into tTest (tstValue) values ('value two');
+
+commit;
