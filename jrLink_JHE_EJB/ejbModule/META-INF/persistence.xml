@@ -3,5 +3,6 @@
 	<persistence-unit name="jrLink_JHE_EJB" transaction-type="JTA">
 		<jta-data-source>java:jboss/datasource/jrLink_JHE</jta-data-source>
 		<class>ch.jherzig.ffhs.test.Ttest</class>
+		<class>ch.jherzig.ffhs.model.Tlink</class>
 	</persistence-unit>
 </persistence>

@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ch.jherzig.ffhs.controller.LinkBean;
+
+
+
 /**
  * Servlet implementation class TestServlet
  */
@@ -28,6 +32,8 @@ public class TestServlet extends HttpServlet {
     
     @EJB
     private TestBean bean;
+    @EJB
+    private LinkBean linkBean;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -41,7 +47,12 @@ public class TestServlet extends HttpServlet {
 		
 		String res = bean.sayHello("Hallo vom Servlet");
 		
+
 		request.setAttribute("result", res);
+		request.setAttribute("linkKey", linkBean.getByKey(new Long(2)).getLinkey());
+		request.setAttribute("linkName", linkBean.getByKey(new Long(2)).getLinname());
+		request.setAttribute("linkValue", linkBean.getByKey(new Long(2)).getLinvalue());
+		
 		rdDefault.forward(request, response);
 	}
 

@@ -11,6 +11,11 @@
 
 <h2>TEST LIste Seite</h2>
 <h4>${result}</h4>
-
+<br>
+<h4>${linkKey}</h4>
+<br>
+<h4>${linkName}</h4>
+<br>
+<h4>${linkValue}</h4>
 </body>
 </html>
