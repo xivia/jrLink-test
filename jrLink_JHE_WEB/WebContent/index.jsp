@@ -14,6 +14,8 @@
 	<a href="testListe.jsp">testListe</a> Anzeigen
 	<br />
 	<br />
+		Click <a href="manage">here</a> to manage the data.<br />
+	<br>
 
 </body>
 </html>
