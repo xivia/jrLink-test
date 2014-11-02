@@ -43,3 +43,49 @@ where linKey = 1;
 update tLink SET linValue = 'zweiter Link in der DB'
 where linKey = 2;
 commit;
+
+
+begin;
+
+create sequence seq_rolKey; -- start/increment: 1/1
+
+create table tRole (
+  rolKey        int8 default nextval('seq_rolKey'),
+  rolName       varchar(100),
+  rolActiveYN   int2,
+  rolCrN        varchar(100),
+  rolCrDt       timestamp,
+  rolChN        varchar(100),
+  rolChDt       timestamp,
+
+  constraint pk_rolKey PRIMARY KEY (rolKey)
+);
+
+create sequence seq_useKey; -- start/increment: 1/1
+
+create table tUser (
+  useKey        int8 default nextval('seq_useKey'),
+  useRoleID		int8,
+  useName       varchar(100),
+  useVorname   	varchar(100),
+  usePasswort  	varchar(100),
+  useMail 	    varchar(100),
+  useNick   	varchar(100),
+  useActiveYN   int2,
+  useCrN        varchar(100),
+  useCrDt       timestamp,
+  useChN        varchar(100),
+  useChDt       timestamp,
+
+  constraint pk_useKey PRIMARY KEY (useKey),
+  constraint fk_useRoleID FOREIGN KEY (useRoleID) references tRole (rolKey) on delete CASCADE on update CASCADE DEFERRABLE initially DEFERRED
+);
+
+
+insert into tRole (rolName, rolActiveYN, rolCrN, rolCrDt, rolChN, rolChDt)values ('admin',1, 'init', now(), 'init', now());
+
+insert into tUser (useRoleID, useName, useVorname, useMail, useNick, useActiveYN, useCrN, useCrDt, useChN, useChDt)values (1,'Jörg','Herzig','info@jherzig.ch','jhe',1, 'init', now(), 'init', now());
+
+commit;
+
+
