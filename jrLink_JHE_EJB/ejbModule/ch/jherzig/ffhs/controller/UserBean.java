@@ -5,20 +5,19 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import ch.jherzig.ffhs.model.Link;
-
+import ch.jherzig.ffhs.model.User;
 
 /**
- * Session Bean implementation class LinkBean
+ * Session Bean implementation class UserBean
  */
 @Stateless
 @LocalBean
-public class LinkBean implements LinkBeanLocal {
+public class UserBean implements UserBeanLocal {
 
     /**
      * Default constructor. 
      */
-    public LinkBean() {
+    public UserBean() {
         // TODO Auto-generated constructor stub
     }
     
@@ -26,10 +25,11 @@ public class LinkBean implements LinkBeanLocal {
     private EntityManager em;
 
 	@Override
-	public Link getByKey(Long key) {
-		Link table;
-		table = em.find(Link.class, key);
-		return table;
+	public User getByKey(Long key) {
+		User user;
+		user = em.find(User.class, key);
+		
+		return user;
 	}
 
 }

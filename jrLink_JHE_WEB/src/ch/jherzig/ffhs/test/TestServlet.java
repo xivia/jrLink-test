@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ch.jherzig.ffhs.controller.LinkBean;
+import ch.jherzig.ffhs.controller.RoleBean;
+import ch.jherzig.ffhs.controller.UserBean;
 
 /**
  * Servlet implementation class TestServlet
@@ -32,6 +34,10 @@ public class TestServlet extends HttpServlet {
     private TestBean bean;
     @EJB
     private LinkBean linkBean;
+    @EJB
+    private UserBean userBean;
+    @EJB
+    private RoleBean roleBean;
     
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -46,9 +52,14 @@ public class TestServlet extends HttpServlet {
 		
 
 		request.setAttribute("result", res);
-		request.setAttribute("linkKey", linkBean.getByKey(new Long(2)).getLinkey());
-		request.setAttribute("linkName", linkBean.getByKey(new Long(2)).getLinname());
-		request.setAttribute("linkValue", linkBean.getByKey(new Long(2)).getLinvalue());
+		request.setAttribute("linkKey", linkBean.getByKey(new Long(2)).getKey());
+		request.setAttribute("linkName", linkBean.getByKey(new Long(2)).getName());
+		request.setAttribute("linkValue", linkBean.getByKey(new Long(2)).getValue());
+		
+		request.setAttribute("userName", userBean.getByKey(new Long(1)).getName());
+		request.setAttribute("userNick", userBean.getByKey(new Long(1)).getNick());
+		request.setAttribute("roleName", roleBean.getByKey(new Long(1)).getName());
+		request.setAttribute("roleUser", roleBean.getByKey(new Long(1)).getKey());
 		
 		rdDefault.forward(request, response);
 	}

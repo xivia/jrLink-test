@@ -12,10 +12,25 @@
 <h2>TEST LIste Seite</h2>
 <h4>${result}</h4>
 <br>
+linkKey
 <h4>${linkKey}</h4>
 <br>
+linkName
 <h4>${linkName}</h4>
 <br>
+linkValue
 <h4>${linkValue}</h4>
+<br>
+userName
+<h4>${userName}</h4>
+<br>
+userNick
+<h4>${userNick}</h4>
+<br>
+roleName
+<h4>${roleName}</h4>
+<br>
+roleUser
+<h4>${roleUser}</h4>
 </body>
 </html>
