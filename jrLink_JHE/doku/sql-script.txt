@@ -85,6 +85,7 @@ create table tUser (
 insert into tRole (rolName, rolActiveYN, rolCrN, rolCrDt, rolChN, rolChDt)values ('admin',1, 'init', now(), 'init', now());
 
 insert into tUser (useRoleID, useName, useVorname, useMail, useNick, useActiveYN, useCrN, useCrDt, useChN, useChDt)values (1,'Jörg','Herzig','info@jherzig.ch','jhe',1, 'init', now(), 'init', now());
+insert into tUser (useRoleID, useName, useVorname, useMail, useNick, useActiveYN, useCrN, useCrDt, useChN, useChDt)values (2,'test','Muster','muster@jherzig.ch','mus',1, 'init', now(), 'init', now());
 
 commit;
 

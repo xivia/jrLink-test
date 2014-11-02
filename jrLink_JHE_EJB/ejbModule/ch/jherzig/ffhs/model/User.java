@@ -18,7 +18,8 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Long usekey;
+	@Column(name="usekey")
+	private Long key;
 
 	private Integer useactiveyn;
 
@@ -32,7 +33,8 @@ public class User implements Serializable {
 
 	private String usemail;
 
-	private String usename;
+	@Column(name="usename")
+	private String name;
 
 	private String usenick;
 
@@ -49,11 +51,11 @@ public class User implements Serializable {
 	}
 
 	public Long getKey() {
-		return this.usekey;
+		return this.key;
 	}
 
 	public void setKey(Long usekey) {
-		this.usekey = usekey;
+		this.key = usekey;
 	}
 
 	public Integer getActiveyn() {
@@ -105,11 +107,11 @@ public class User implements Serializable {
 	}
 
 	public String getName() {
-		return this.usename;
+		return this.name;
 	}
 
 	public void setName(String usename) {
-		this.usename = usename;
+		this.name = usename;
 	}
 
 	public String getNick() {
