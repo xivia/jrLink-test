@@ -13,12 +13,14 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name="tuser")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u ORDER BY u.key")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="usekey")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EMP_SEQ")
+    @SequenceGenerator(name="EMP_SEQ", sequenceName="EMP_SEQ", allocationSize=10)
 	private Long key;
 
 	private Integer useactiveyn;

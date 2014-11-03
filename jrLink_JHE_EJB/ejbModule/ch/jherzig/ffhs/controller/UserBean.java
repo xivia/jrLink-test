@@ -51,7 +51,13 @@ public class UserBean implements UserBeanLocal {
 
 	@Override
 	public void create(User user) {
-		// TODO Auto-generated method stub
+		User dbUser = new User();
+		dbUser.setName(user.getName());
+		dbUser.setNick(user.getNick());
+		dbUser.setMail(user.getMail());
+		
+		em.persist(dbUser);
+		em.flush();
 		
 	}
 

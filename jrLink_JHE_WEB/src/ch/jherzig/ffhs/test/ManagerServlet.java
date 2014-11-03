@@ -39,12 +39,14 @@ public class ManagerServlet extends HttpServlet {
 	private UserBean userBean;
 	@EJB
 	private RoleBean roleBean;
+	private User user;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		// action
 		String action = request.getParameter("action");
 		if (action == null) {
@@ -55,6 +57,7 @@ public class ManagerServlet extends HttpServlet {
 		Long key = new Long(0);
 		if (strKey != null) {
 			key = Long.parseLong(strKey);
+			user = userBean.getByKey(key);
 		}
 
 		ServletContext sc = getServletContext();
@@ -62,8 +65,6 @@ public class ManagerServlet extends HttpServlet {
 		switch (action) {
 		case "edit":
 			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlUserForm);
-
-			User user = userBean.getByKey(key);
 
 			request.setAttribute("entryKey", user.getKey());
 			request.setAttribute("entryName", user.getName());
@@ -73,6 +74,25 @@ public class ManagerServlet extends HttpServlet {
 			rdEdit.forward(request, response);
 
 			break;
+
+		case "new":
+
+			RequestDispatcher rdNew = sc.getRequestDispatcher(urlUserForm);
+
+			request.setAttribute("entryKey", null);
+			request.setAttribute("entryName", "");
+			request.setAttribute("entryNick", "");
+			request.setAttribute("entryMail", "");
+			request.setAttribute("nextAction", "create");
+			rdNew.forward(request, response);
+
+			break;
+
+		case "delete":
+
+			userBean.delete(user);
+			// fall through -> fill list
+			// break;
 
 		default:
 
@@ -116,6 +136,14 @@ public class ManagerServlet extends HttpServlet {
 		case "update":
 
 			userBean.update(user);
+			// goto list
+			doGet(request, response);
+
+			break;
+			
+		case "create":
+
+			userBean.create(user);
 			// goto list
 			doGet(request, response);
 
