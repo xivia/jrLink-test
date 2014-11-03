@@ -22,7 +22,11 @@
 		<tr>
 			<td>key</td>
 			<td>&nbsp;</td>
-			<td>value</td>
+			<td>name</td>
+			<td>&nbsp;</td>
+			<td>nick</td>
+			<td>&nbsp;</td>
+			<td>mail</td>
 			<td>&nbsp;</td>
 			<td colspan="3">action</td>
 		</tr>
@@ -31,6 +35,10 @@
 				<td>${item.key}</td>
 				<td>&nbsp;</td>
 				<td>${item.name}</td>
+				<td>&nbsp;</td>
+				<td>${item.nick}</td>
+				<td>&nbsp;</td>
+				<td>${item.mail}</td>
 				<td>&nbsp;</td>
 				<td><a href="manage?action=edit&key=${item.key}">edit</a></td>
 				<td>&nbsp;</td>

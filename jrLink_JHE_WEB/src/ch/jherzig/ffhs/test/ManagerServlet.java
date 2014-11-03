@@ -50,16 +50,32 @@ public class ManagerServlet extends HttpServlet {
 		if (action == null) {
 			action = "";
 		}
+		// key
+		String strKey = request.getParameter("key");
+		Long key = new Long(0);
+		if (strKey != null) {
+			key = Long.parseLong(strKey);
+		}
 
 		ServletContext sc = getServletContext();
 
 		switch (action) {
-		case "test":
+		case "edit":
+			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlUserForm);
+
+			User user = userBean.getByKey(key);
+
+			request.setAttribute("entryKey", user.getKey());
+			request.setAttribute("entryName", user.getName());
+			request.setAttribute("entryNick", user.getNick());
+			request.setAttribute("entryMail", user.getMail());
+			request.setAttribute("nextAction", "update");
+			rdEdit.forward(request, response);
 
 			break;
 
 		default:
-			
+
 			Collection<User> ejbResult = userBean.getUserList();
 
 			RequestDispatcher rdDefault = sc.getRequestDispatcher(urlUserList);
@@ -78,7 +94,36 @@ public class ManagerServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO doPost Methoden hinzufügen
+		request.setCharacterEncoding("UTF-8");
+
+		// action
+		String action = request.getParameter("action");
+		// key
+		String strKey = request.getParameter("inpKey");
+		Long key = new Long(0);
+		if (strKey != null) {
+			key = Long.parseLong(strKey);
+		}
+
+		ServletContext sc = getServletContext();
+		User user = new User();
+		user.setKey(key);
+		user.setName(request.getParameter("inpName"));
+		user.setNick(request.getParameter("inpNick"));
+		user.setMail(request.getParameter("inpMail"));
+
+		switch (action) {
+		case "update":
+
+			userBean.update(user);
+			// goto list
+			doGet(request, response);
+
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }
