@@ -1,6 +1,7 @@
 package ch.jherzig.ffhs.controller;
 
 import java.util.Collection;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,6 +36,29 @@ public class UserBean implements UserBeanLocal {
 	@Override
 	public Collection<User> getUserList() {
 		return em.createNamedQuery("User.findAll", User.class).getResultList();
+	}
+
+	@Override
+	public void update(User user) {
+		User dbUser = getByKey(user.getKey());
+		dbUser.setName(user.getName());
+		dbUser.setNick(user.getNick());
+		dbUser.setMail(user.getMail());
+		
+		em.merge(dbUser);
+		em.flush();
+	}
+
+	@Override
+	public void create(User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(User user) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

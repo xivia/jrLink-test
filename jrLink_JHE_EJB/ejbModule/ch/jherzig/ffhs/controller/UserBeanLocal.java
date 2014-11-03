@@ -10,5 +10,8 @@ public interface UserBeanLocal {
 	
 	public User getByKey(Long key);
 	public Collection<User> getUserList();
+	public void update(User user);
+	public void create(User user);
+	public void delete(User user);
 
 }
