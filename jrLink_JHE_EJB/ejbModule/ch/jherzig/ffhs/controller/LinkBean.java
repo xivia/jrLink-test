@@ -19,7 +19,7 @@ public class LinkBean implements LinkBeanLocal {
      * Default constructor. 
      */
     public LinkBean() {
-        // TODO Auto-generated constructor stub
+        
     }
     
     @PersistenceContext

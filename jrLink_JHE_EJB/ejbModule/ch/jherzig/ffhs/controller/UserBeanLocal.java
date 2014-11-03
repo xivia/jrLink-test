@@ -1,7 +1,6 @@
 package ch.jherzig.ffhs.controller;
 
-import java.util.List;
-
+import java.util.Collection;
 import javax.ejb.Local;
 
 import ch.jherzig.ffhs.model.User;
@@ -10,6 +9,6 @@ import ch.jherzig.ffhs.model.User;
 public interface UserBeanLocal {
 	
 	public User getByKey(Long key);
-	public List<User> getUserList();
+	public Collection<User> getUserList();
 
 }

@@ -1,7 +1,6 @@
 package ch.jherzig.ffhs.controller;
 
-import java.util.List;
-
+import java.util.Collection;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,7 +19,6 @@ public class UserBean implements UserBeanLocal {
      * Default constructor. 
      */
     public UserBean() {
-        // TODO Auto-generated constructor stub
     }
     
     @PersistenceContext
@@ -35,7 +33,7 @@ public class UserBean implements UserBeanLocal {
 	}
 
 	@Override
-	public List<User> getUserList() {
+	public Collection<User> getUserList() {
 		return em.createNamedQuery("User.findAll", User.class).getResultList();
 	}
 	

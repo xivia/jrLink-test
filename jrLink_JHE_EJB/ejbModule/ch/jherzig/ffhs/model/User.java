@@ -50,8 +50,8 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public Long getKey() {
-		return this.key;
+	public String getKey() {
+		return this.key.toString();
 	}
 
 	public void setKey(Long usekey) {

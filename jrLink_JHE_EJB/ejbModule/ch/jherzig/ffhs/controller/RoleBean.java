@@ -18,7 +18,6 @@ public class RoleBean implements RoleBeanLocal {
      * Default constructor. 
      */
     public RoleBean() {
-        // TODO Auto-generated constructor stub
     }
     
     @PersistenceContext

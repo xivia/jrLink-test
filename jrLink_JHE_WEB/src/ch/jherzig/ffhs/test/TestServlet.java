@@ -27,7 +27,6 @@ public class TestServlet extends HttpServlet {
      */
     public TestServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     @EJB
@@ -68,7 +67,7 @@ public class TestServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 	}
 
 }
