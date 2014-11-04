@@ -27,7 +27,7 @@ public class UserBean implements UserBeanLocal {
 
 	@Override
 	public User getByKey(Long key) {
-		User user;
+		User user = null;
 		user = em.find(User.class, key);
 		
 		return user;
@@ -63,7 +63,11 @@ public class UserBean implements UserBeanLocal {
 
 	@Override
 	public void delete(User user) {
-		// TODO Auto-generated method stub
+		User userDelete = getByKey(user.getKey());
+		if (userDelete != null) {
+			em.remove(userDelete);
+			em.flush();
+		}
 		
 	}
 	

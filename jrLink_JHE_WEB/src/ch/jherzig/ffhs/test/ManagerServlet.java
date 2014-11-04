@@ -88,7 +88,10 @@ public class ManagerServlet extends HttpServlet {
 
 		case "delete":
 
-			userBean.delete(user);
+			if (user != null) {
+				userBean.delete(user);
+			}
+			
 			// fall through -> fill list
 			// break;
 
@@ -121,7 +124,6 @@ public class ManagerServlet extends HttpServlet {
 			key = Long.parseLong(strKey);
 		}
 
-		ServletContext sc = getServletContext();
 		User user = new User();
 		user.setKey(key);
 		user.setName(request.getParameter("inpName"));

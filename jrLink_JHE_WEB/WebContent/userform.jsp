@@ -48,8 +48,6 @@
 				<td><input type="submit" name="inpSubmitButton" value="save" /></td>
 			</tr>
 		</table>
-
-
 	</form>
 
 </body>

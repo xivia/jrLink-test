@@ -6,21 +6,20 @@ import javax.persistence.*;
 
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the tuser database table.
  * 
  */
 @Entity
-@Table(name="tuser")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u ORDER BY u.key")
+@Table(name = "tuser")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u ORDER BY u.key")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="usekey")
-	@SequenceGenerator(name="USER_USEKEY_GENERATOR", sequenceName="SEQ_USEKEY")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USER_USEKEY_GENERATOR")
+	@Column(name = "usekey")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usekey")
+	@SequenceGenerator(name = "seq_usekey", sequenceName = "seq_usekey", allocationSize = 0)
 	private Long key;
 
 	private Integer useactiveyn;
@@ -35,7 +34,7 @@ public class User implements Serializable {
 
 	private String usemail;
 
-	@Column(name="usename")
+	@Column(name = "usename")
 	private String name;
 
 	private String usenick;
@@ -44,9 +43,9 @@ public class User implements Serializable {
 
 	private String usevorname;
 
-	//bi-directional many-to-one association to Role
+	// bi-directional many-to-one association to Role
 	@ManyToOne
-	@JoinColumn(name="useroleid")
+	@JoinColumn(name = "useroleid")
 	private Role trole;
 
 	public User() {
@@ -139,7 +138,7 @@ public class User implements Serializable {
 	public void setVorname(String usevorname) {
 		this.usevorname = usevorname;
 	}
-	
+
 	public Role getRole() {
 		return this.trole;
 	}
@@ -147,6 +146,5 @@ public class User implements Serializable {
 	public void setRole(Role trole) {
 		this.trole = trole;
 	}
-
 
 }
