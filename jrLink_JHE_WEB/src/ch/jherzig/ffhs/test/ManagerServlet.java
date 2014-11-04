@@ -1,7 +1,10 @@
 package ch.jherzig.ffhs.test;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
+
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -64,10 +67,7 @@ public class ManagerServlet extends HttpServlet {
 		case "edit":
 			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlUserForm);
 
-			request.setAttribute("entryKey", user.getKey());
-			request.setAttribute("entryName", user.getName());
-			request.setAttribute("entryNick", user.getNick());
-			request.setAttribute("entryMail", user.getMail());
+			request.setAttribute("user", user);
 			request.setAttribute("nextAction", "update");
 			rdEdit.forward(request, response);
 
@@ -114,25 +114,31 @@ public class ManagerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-
+		Date date = new Date();
+		Timestamp timestamp = new Timestamp(date.getTime());
+		User user = new User();
+		
 		// action
 		String action = request.getParameter("action");
 		// key
 		String strKey = request.getParameter("inpKey");
-		Long key = new Long(0);
+		Long key = null;
 		if (strKey != "") {
 			key = Long.parseLong(strKey);
+			user = userBean.getByKey(key);
 		}
 
-		User user = new User();
-		user.setKey(key);
 		user.setName(request.getParameter("inpName"));
+		user.setVorname(request.getParameter("inpVorName"));
 		user.setNick(request.getParameter("inpNick"));
 		user.setMail(request.getParameter("inpMail"));
+		user.setPasswort(request.getParameter("inppasswort"));
+		
 
 		switch (action) {
 		case "update":
-
+		
+			user.setChdt(timestamp);
 			userBean.update(user);
 			// goto list
 			doGet(request, response);
@@ -141,6 +147,7 @@ public class ManagerServlet extends HttpServlet {
 			
 		case "create":
 
+			user.setCrdt(timestamp);
 			userBean.create(user);
 			// goto list
 			doGet(request, response);

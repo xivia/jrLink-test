@@ -24,23 +24,43 @@
 			<tr>
 				<td>key</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="inpKeyD" value="${entryKey}" disabled /></td>
-				<td><input type="hidden" name="inpKey" value="${entryKey}" /></td>
+				<td><input type="text" name="inpKeyD" value="${user.key}" disabled /></td>
+				<td><input type="hidden" name="inpKey" value="${user.key}" /></td>
 			</tr>
 			<tr>
 				<td>name</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="inpName" value="${entryName}" /></td>
+				<td><input type="text" name="inpName" value="${user.name}" /></td>
+			</tr>
+			<tr>
+				<td>vorname</td>
+				<td>&nbsp;</td>
+				<td><input type="text" name="inpVorName" value="${user.vorname}" /></td>
 			</tr>
 			<tr>
 				<td>nick</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="inpNick" value="${entryNick}" /></td>
+				<td><input type="text" name="inpNick" value="${user.nick}" /></td>
 			</tr>
 			<tr>
 				<td>e-mail</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="inpMail" value="${entryMail}" /></td>
+				<td><input type="text" name="inpMail" value="${user.mail}" /></td>
+			</tr>
+			<tr>
+				<td>passwort</td>
+				<td>&nbsp;</td>
+				<td><input type="text" name="inppasswort" value="${user.passwort}" /></td>
+			</tr>
+			<tr>
+				<td>erstellt am</td>
+				<td>&nbsp;</td>
+				<td><input type="text" name="inpcrdt" value="${user.crdt}" disabled/></td>
+			</tr>
+			<tr>
+				<td>geändert</td>
+				<td>&nbsp;</td>
+				<td><input type="text" name="inpchdt" value="${user.chdt}" disabled/></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>

@@ -40,23 +40,16 @@ public class UserBean implements UserBeanLocal {
 
 	@Override
 	public void update(User user) {
-		User dbUser = getByKey(user.getKey());
-		dbUser.setName(user.getName());
-		dbUser.setNick(user.getNick());
-		dbUser.setMail(user.getMail());
-		
-		em.merge(dbUser);
-		em.flush();
+		if (getByKey(user.getKey()) != null) {
+			em.merge(user);
+			em.flush();
+		}		
 	}
 
 	@Override
 	public void create(User user) {
-		User dbUser = new User();
-		dbUser.setName(user.getName());
-		dbUser.setNick(user.getNick());
-		dbUser.setMail(user.getMail());
 		
-		em.persist(dbUser);
+		em.persist(user);
 		em.flush();
 		
 	}

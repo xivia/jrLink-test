@@ -22,26 +22,35 @@ public class User implements Serializable {
 	@SequenceGenerator(name = "seq_usekey", sequenceName = "seq_usekey", allocationSize = 0)
 	private Long key;
 
-	private Integer useactiveyn;
+	@Column(name = "useactiveyn")
+	private Integer activeyn;
 
-	private Timestamp usechdt;
+	@Column(name = "usechdt")
+	private Timestamp chdt;
 
-	private String usechn;
+	@Column(name = "usechn")
+	private String chn;
 
-	private Timestamp usecrdt;
+	@Column(name = "usecrdt")
+	private Timestamp crdt;
 
-	private String usecrn;
+	@Column(name = "usecrn")
+	private String crn;
 
-	private String usemail;
+	@Column(name = "usemail")
+	private String mail;
 
 	@Column(name = "usename")
 	private String name;
 
-	private String usenick;
+	@Column(name = "usenick")
+	private String nick;
 
-	private String usepasswort;
+	@Column(name = "usepasswort")
+	private String passwort;
 
-	private String usevorname;
+	@Column(name = "usevorname")
+	private String vorname;
 
 	// bi-directional many-to-one association to Role
 	@ManyToOne
@@ -60,51 +69,51 @@ public class User implements Serializable {
 	}
 
 	public Integer getActiveyn() {
-		return this.useactiveyn;
+		return this.activeyn;
 	}
 
 	public void setActiveyn(Integer useactiveyn) {
-		this.useactiveyn = useactiveyn;
+		this.activeyn = useactiveyn;
 	}
 
 	public Timestamp getChdt() {
-		return this.usechdt;
+		return this.chdt;
 	}
 
 	public void setChdt(Timestamp usechdt) {
-		this.usechdt = usechdt;
+		this.chdt = usechdt;
 	}
 
 	public String getChn() {
-		return this.usechn;
+		return this.chn;
 	}
 
 	public void setChn(String usechn) {
-		this.usechn = usechn;
+		this.chn = usechn;
 	}
 
 	public Timestamp getCrdt() {
-		return this.usecrdt;
+		return this.crdt;
 	}
 
 	public void setCrdt(Timestamp usecrdt) {
-		this.usecrdt = usecrdt;
+		this.crdt = usecrdt;
 	}
 
 	public String getCrn() {
-		return this.usecrn;
+		return this.crn;
 	}
 
 	public void setCrn(String usecrn) {
-		this.usecrn = usecrn;
+		this.crn = usecrn;
 	}
 
 	public String getMail() {
-		return this.usemail;
+		return this.mail;
 	}
 
 	public void setMail(String usemail) {
-		this.usemail = usemail;
+		this.mail = usemail;
 	}
 
 	public String getName() {
@@ -116,27 +125,27 @@ public class User implements Serializable {
 	}
 
 	public String getNick() {
-		return this.usenick;
+		return this.nick;
 	}
 
 	public void setNick(String usenick) {
-		this.usenick = usenick;
+		this.nick = usenick;
 	}
 
 	public String getPasswort() {
-		return this.usepasswort;
+		return this.passwort;
 	}
 
 	public void setPasswort(String usepasswort) {
-		this.usepasswort = usepasswort;
+		this.passwort = usepasswort;
 	}
 
 	public String getVorname() {
-		return this.usevorname;
+		return this.vorname;
 	}
 
 	public void setVorname(String usevorname) {
-		this.usevorname = usevorname;
+		this.vorname = usevorname;
 	}
 
 	public Role getRole() {
