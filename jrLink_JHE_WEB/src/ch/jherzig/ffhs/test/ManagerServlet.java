@@ -2,8 +2,6 @@ package ch.jherzig.ffhs.test;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
-
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -105,8 +103,6 @@ public class ManagerServlet extends HttpServlet {
 
 			break;
 		}
-
-		System.out.println("@WebServlet(/manage)");
 	}
 
 	/**
@@ -121,7 +117,7 @@ public class ManagerServlet extends HttpServlet {
 		// key
 		String strKey = request.getParameter("inpKey");
 		Long key = new Long(0);
-		if (strKey != null) {
+		if (strKey != "") {
 			key = Long.parseLong(strKey);
 		}
 

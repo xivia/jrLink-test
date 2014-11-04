@@ -19,8 +19,8 @@ public class User implements Serializable {
 
 	@Id
 	@Column(name="usekey")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EMP_SEQ")
-    @SequenceGenerator(name="EMP_SEQ", sequenceName="EMP_SEQ", allocationSize=10)
+	@SequenceGenerator(name="USER_USEKEY_GENERATOR", sequenceName="SEQ_USEKEY")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USER_USEKEY_GENERATOR")
 	private Long key;
 
 	private Integer useactiveyn;
