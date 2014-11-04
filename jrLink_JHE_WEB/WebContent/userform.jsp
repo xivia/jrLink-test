@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<a href="index.jsp">home</a>
 	<h2>User Formular JHE</h2>
 
 	<form name="inpForm" method="post" action="manage?action=${nextAction}"

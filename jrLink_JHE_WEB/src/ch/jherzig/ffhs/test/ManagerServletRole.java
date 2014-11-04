@@ -14,37 +14,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ch.jherzig.ffhs.controller.UserBean;
-import ch.jherzig.ffhs.model.User;
+import ch.jherzig.ffhs.controller.RoleBean;
+import ch.jherzig.ffhs.model.Role;
+
 
 /**
- * Servlet implementation class ManagerServlet
+ * Servlet implementation class ManagerServletRole
  */
-@WebServlet("/manage")
-public class ManagerServlet extends HttpServlet {
+@WebServlet("/manageRole")
+public class ManagerServletRole extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public ManagerServlet() {
-		super();
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ManagerServletRole() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	// redirect urls
-	private static final String urlUserList = "/userlist.jsp";
-	private static final String urlUserForm = "/userform.jsp";
-
-	@EJB
-	private UserBean userBean;
-	private User user;
-
+	private static final String urlRoleList = "/rolelist.jsp";
+	private static final String urlRoleForm = "/roleform.jsp";
+    @EJB
+	private RoleBean roleBean;
+    
+    
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		Role role = new Role();
 		// action
 		String action = request.getParameter("action");
 		if (action == null) {
@@ -55,16 +55,16 @@ public class ManagerServlet extends HttpServlet {
 		Long key = new Long(0);
 		if (strKey != null) {
 			key = Long.parseLong(strKey);
-			user = userBean.getByKey(key);
+			role = roleBean.getByKey(key);
 		}
 
 		ServletContext sc = getServletContext();
 
 		switch (action) {
 		case "edit":
-			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlUserForm);
+			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlRoleForm);
 
-			request.setAttribute("user", user);
+			request.setAttribute("role", role);
 			request.setAttribute("nextAction", "update");
 			rdEdit.forward(request, response);
 
@@ -72,7 +72,7 @@ public class ManagerServlet extends HttpServlet {
 
 		case "new":
 
-			RequestDispatcher rdNew = sc.getRequestDispatcher(urlUserForm);
+			RequestDispatcher rdNew = sc.getRequestDispatcher(urlRoleForm);
 
 			request.setAttribute("nextAction", "create");
 			rdNew.forward(request, response);
@@ -81,8 +81,8 @@ public class ManagerServlet extends HttpServlet {
 
 		case "delete":
 
-			if (user != null) {
-				userBean.delete(user);
+			if (role != null) {
+				roleBean.delete(role);
 			}
 			
 			// fall through -> fill list
@@ -90,9 +90,9 @@ public class ManagerServlet extends HttpServlet {
 
 		default:
 
-			Collection<User> ejbResult = userBean.getUserList();
+			Collection<Role> ejbResult = roleBean.getRoleList();
 
-			RequestDispatcher rdDefault = sc.getRequestDispatcher(urlUserList);
+			RequestDispatcher rdDefault = sc.getRequestDispatcher(urlRoleList);
 
 			request.setAttribute("resultList", ejbResult);
 			rdDefault.forward(request, response);
@@ -102,14 +102,13 @@ public class ManagerServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Role role = new Role();
 		request.setCharacterEncoding("UTF-8");
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
-		User user = new User();
 		
 		// action
 		String action = request.getParameter("action");
@@ -118,21 +117,17 @@ public class ManagerServlet extends HttpServlet {
 		Long key = null;
 		if (strKey != "") {
 			key = Long.parseLong(strKey);
-			user = userBean.getByKey(key);
+			role = roleBean.getByKey(key);
 		}
 
-		user.setName(request.getParameter("inpName"));
-		user.setVorname(request.getParameter("inpVorName"));
-		user.setNick(request.getParameter("inpNick"));
-		user.setMail(request.getParameter("inpMail"));
-		user.setPasswort(request.getParameter("inppasswort"));
+		role.setName(request.getParameter("inpName"));
 		
 
 		switch (action) {
 		case "update":
 		
-			user.setChdt(timestamp);
-			userBean.update(user);
+			role.setChdt(timestamp);
+			roleBean.update(role);
 			// goto list
 			doGet(request, response);
 
@@ -140,8 +135,8 @@ public class ManagerServlet extends HttpServlet {
 			
 		case "create":
 
-			user.setCrdt(timestamp);
-			userBean.create(user);
+			role.setCrdt(timestamp);
+			roleBean.create(role);
 			// goto list
 			doGet(request, response);
 

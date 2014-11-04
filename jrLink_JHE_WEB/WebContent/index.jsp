@@ -16,6 +16,9 @@
 	<br />
 		Click <a href="manage">here</a> to manage the data.<br />
 	<br>
+	<br />
+		Click <a href="manageRole">here</a> Rolen bearbeiten.<br />
+	<br>
 
 </body>
 </html>

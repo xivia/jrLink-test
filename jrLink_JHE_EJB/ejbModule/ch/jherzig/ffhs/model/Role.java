@@ -14,24 +14,33 @@ import java.util.List;
  */
 @Entity
 @Table(name="trole")
-@NamedQuery(name="Role.findAll", query="SELECT r FROM Role r")
+@NamedQuery(name="Role.findAll", query="SELECT r FROM Role r ORDER BY r.key")
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Long rolkey;
+	@Column(name = "rolkey")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_rolKey")
+	@SequenceGenerator(name = "seq_rolKey", sequenceName = "seq_rolKey", allocationSize = 0)
+	private Long key;
 
-	private Integer rolactiveyn;
+	@Column(name = "rolactiveyn")
+	private Integer activeyn;
 
-	private Timestamp rolchdt;
+	@Column(name = "rolchdt")
+	private Timestamp chdt;
 
-	private String rolchn;
+	@Column(name = "rolchn")
+	private String chn;
+	
+	@Column(name = "rolcrdt")
+	private Timestamp crdt;
 
-	private Timestamp rolcrdt;
+	@Column(name = "rolcrn")
+	private String crn;
 
-	private String rolcrn;
-
-	private String rolname;
+	@Column(name = "rolname")
+	private String name;
 
 	//bi-directional many-to-one association to User
 	@OneToMany(mappedBy="trole")
@@ -41,59 +50,59 @@ public class Role implements Serializable {
 	}
 
 	public Long getKey() {
-		return this.rolkey;
+		return this.key;
 	}
 
 	public void setKey(Long rolkey) {
-		this.rolkey = rolkey;
+		this.key = rolkey;
 	}
 
 	public Integer getActiveyn() {
-		return this.rolactiveyn;
+		return this.activeyn;
 	}
 
 	public void setRolactiveyn(Integer rolactiveyn) {
-		this.rolactiveyn = rolactiveyn;
+		this.activeyn = rolactiveyn;
 	}
 
 	public Timestamp getChdt() {
-		return this.rolchdt;
+		return this.chdt;
 	}
 
 	public void setChdt(Timestamp rolchdt) {
-		this.rolchdt = rolchdt;
+		this.chdt = rolchdt;
 	}
 
 	public String getChn() {
-		return this.rolchn;
+		return this.chn;
 	}
 
 	public void setChn(String rolchn) {
-		this.rolchn = rolchn;
+		this.chn = rolchn;
 	}
 
 	public Timestamp getCrdt() {
-		return this.rolcrdt;
+		return this.crdt;
 	}
 
 	public void setCrdt(Timestamp rolcrdt) {
-		this.rolcrdt = rolcrdt;
+		this.crdt = rolcrdt;
 	}
 
 	public String getCrn() {
-		return this.rolcrn;
+		return this.crn;
 	}
 
 	public void setCrn(String rolcrn) {
-		this.rolcrn = rolcrn;
+		this.crn = rolcrn;
 	}
 
 	public String getName() {
-		return this.rolname;
+		return this.name;
 	}
 
 	public void setName(String rolname) {
-		this.rolname = rolname;
+		this.name = rolname;
 	}
 
 	public List<User> getTusers() {

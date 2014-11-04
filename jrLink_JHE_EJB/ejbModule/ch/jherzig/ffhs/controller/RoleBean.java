@@ -1,5 +1,7 @@
 package ch.jherzig.ffhs.controller;
 
+import java.util.Collection;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,6 +22,7 @@ public class RoleBean implements RoleBeanLocal {
     public RoleBean() {
     }
     
+       
     @PersistenceContext
     private EntityManager em;
 
@@ -30,6 +33,36 @@ public class RoleBean implements RoleBeanLocal {
 		role = em.find(Role.class, key);
 		
 		return role;
+	}
+
+	@Override
+	public Collection<Role> getRoleList() {
+		return em.createNamedQuery("Role.findAll",Role.class).getResultList();
+	}
+
+	@Override
+	public void update(Role role) {
+		if (getByKey(role.getKey()) != null) {
+			em.merge(role);
+			em.flush();
+		}			
+	}
+
+	@Override
+	public void create(Role role) {
+		
+		em.persist(role);
+		em.flush();		
+	}
+
+	@Override
+	public void delete(Role role) {
+		Role roleDelete = getByKey(role.getKey());
+		if (roleDelete != null) {
+			em.remove(roleDelete);
+			em.flush();
+		}
+		
 	}
 
 }

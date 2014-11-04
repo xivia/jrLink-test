@@ -9,13 +9,13 @@
 </head>
 <body>
 <a href="index.jsp">home</a>
-	<h2>JEE - JrList_JHE</h2>	
+	<h2>JEE - JrList_JHE Rolen</h2>	
 	<br />
 
 	<table>
 		<tr>
-			<td colspan="7"><a href="manage">refresh</a> list &nbsp;|&nbsp;
-				<a href="manage?action=new">new</a> record</td>
+			<td colspan="7"><a href="manageRole">refresh</a> list &nbsp;|&nbsp;
+				<a href="manageRole?action=new">new</a> record</td>
 		</tr>
 		<tr>
 			<td colspan="7">&nbsp;</td>
@@ -25,10 +25,6 @@
 			<td>&nbsp;</td>
 			<td>name</td>
 			<td>&nbsp;</td>
-			<td>nick</td>
-			<td>&nbsp;</td>
-			<td>mail</td>
-			<td>&nbsp;</td>
 			<td colspan="3">action</td>
 		</tr>
 		<c:forEach var="item" items="${resultList}">
@@ -37,13 +33,9 @@
 				<td>&nbsp;</td>
 				<td>${item.name}</td>
 				<td>&nbsp;</td>
-				<td>${item.nick}</td>
+				<td><a href="manageRole?action=edit&key=${item.key}">edit</a></td>
 				<td>&nbsp;</td>
-				<td>${item.mail}</td>
-				<td>&nbsp;</td>
-				<td><a href="manage?action=edit&key=${item.key}">edit</a></td>
-				<td>&nbsp;</td>
-				<td><a href="manage?action=delete&key=${item.key}">delete</a></td>
+				<td><a href="manageRole?action=delete&key=${item.key}">delete</a></td>
 			</tr>
 		</c:forEach>
 	</table>
