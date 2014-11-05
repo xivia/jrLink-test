@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ch.jherzig.ffhs.controller.RoleBean;
 import ch.jherzig.ffhs.controller.UserBean;
+import ch.jherzig.ffhs.model.Role;
 import ch.jherzig.ffhs.model.User;
 
 /**
@@ -38,6 +40,8 @@ public class ManagerServlet extends HttpServlet {
 	@EJB
 	private UserBean userBean;
 	private User user;
+	@EJB
+	private RoleBean roleBean;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -59,11 +63,15 @@ public class ManagerServlet extends HttpServlet {
 		}
 
 		ServletContext sc = getServletContext();
+		Collection<Role> listRole = roleBean.getRoleList();
 
 		switch (action) {
 		case "edit":
 			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlUserForm);
+			
+			
 
+			request.setAttribute("listrole", listRole);
 			request.setAttribute("user", user);
 			request.setAttribute("nextAction", "update");
 			rdEdit.forward(request, response);
@@ -74,6 +82,7 @@ public class ManagerServlet extends HttpServlet {
 
 			RequestDispatcher rdNew = sc.getRequestDispatcher(urlUserForm);
 
+			request.setAttribute("listrole", listRole);
 			request.setAttribute("nextAction", "create");
 			rdNew.forward(request, response);
 
@@ -110,6 +119,7 @@ public class ManagerServlet extends HttpServlet {
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
 		User user = new User();
+		Role role = new Role();
 		
 		// action
 		String action = request.getParameter("action");
@@ -120,13 +130,19 @@ public class ManagerServlet extends HttpServlet {
 			key = Long.parseLong(strKey);
 			user = userBean.getByKey(key);
 		}
+		if (request.getParameter("inprole") != "") {
+			long roleKey = Long.parseLong(request.getParameter("inprole"));
+			role = roleBean.getByKey(roleKey);
+		}
+		
 
 		user.setName(request.getParameter("inpName"));
 		user.setVorname(request.getParameter("inpVorName"));
 		user.setNick(request.getParameter("inpNick"));
 		user.setMail(request.getParameter("inpMail"));
 		user.setPasswort(request.getParameter("inppasswort"));
-		
+		user.setRole(role);
+			
 
 		switch (action) {
 		case "update":

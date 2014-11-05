@@ -8,11 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<a href="index.jsp">home</a>
+	<a href="index.jsp">home</a>
 	<h2>User Formular JHE</h2>
 
 	<form name="inpForm" method="post" action="manage?action=${nextAction}"
-		accept-charset="UTF-8" onsubmit="return validate();">
+		id="userform" accept-charset="UTF-8" onsubmit="return validate();">
 
 		<table>
 			<tr>
@@ -24,7 +24,8 @@
 			<tr>
 				<td>key</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="inpKeyD" value="${user.key}" disabled /></td>
+				<td><input type="text" name="inpKeyD" value="${user.key}"
+					disabled /></td>
 				<td><input type="hidden" name="inpKey" value="${user.key}" /></td>
 			</tr>
 			<tr>
@@ -35,7 +36,8 @@
 			<tr>
 				<td>vorname</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="inpVorName" value="${user.vorname}" /></td>
+				<td><input type="text" name="inpVorName"
+					value="${user.vorname}" /></td>
 			</tr>
 			<tr>
 				<td>nick</td>
@@ -50,17 +52,36 @@
 			<tr>
 				<td>passwort</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="inppasswort" value="${user.passwort}" /></td>
+				<td><input type="password" name="inppasswort"
+					value="${user.passwort}" /></td>
+			</tr>
+			<tr>
+				<td>role</td>
+				<td>&nbsp;</td>
+				<td><select name="inprole" form="userform">
+						<c:forEach var="item" items="${listrole}">
+							<c:choose>
+								<c:when test="${item.key == user.role.key}">
+									<option selected value=${item.key}>${item.name}</option>
+								</c:when>
+								<c:otherwise>
+									<option value=${item.key}>${item.name}</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+				</select></td>
 			</tr>
 			<tr>
 				<td>erstellt am</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="inpcrdt" value="${user.crdt}" disabled/></td>
+				<td><input type="text" name="inpcrdt" value="${user.crdt}"
+					disabled /></td>
 			</tr>
 			<tr>
 				<td>geändert</td>
 				<td>&nbsp;</td>
-				<td><input type="text" name="inpchdt" value="${user.chdt}" disabled/></td>
+				<td><input type="text" name="inpchdt" value="${user.chdt}"
+					disabled /></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
