@@ -140,7 +140,7 @@ public class ManagerServlet extends HttpServlet {
 		user.setVorname(request.getParameter("inpVorName"));
 		user.setNick(request.getParameter("inpNick"));
 		user.setMail(request.getParameter("inpMail"));
-		user.setPasswort(request.getParameter("inppasswort"));
+		user.setPasswort(request.getParameter("inpPasswort"));
 		user.setRole(role);
 			
 

@@ -52,7 +52,7 @@
 			<tr>
 				<td>passwort</td>
 				<td>&nbsp;</td>
-				<td><input type="password" name="inppasswort"
+				<td><input type="password" name="inpPasswort"
 					value="${user.passwort}" /></td>
 			</tr>
 			<tr>
