@@ -19,6 +19,13 @@
 	<br />
 		Click <a href="manageRole">here</a> Rolen bearbeiten.<br />
 	<br>
+	<br />
+		Click <a href="manageLogin">here</a> login<br />
+	<br>
+	<br>
+	<h3>Hallo: ${inpNick}</h3>
+	<br>
+	<h3>Passwort: ${inpPasswort}</h3>
 
 </body>
 </html>
