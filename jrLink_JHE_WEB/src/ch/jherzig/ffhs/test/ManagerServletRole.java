@@ -13,10 +13,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import ch.jherzig.ffhs.controller.LoginBeanLocal;
 import ch.jherzig.ffhs.controller.RoleBean;
 import ch.jherzig.ffhs.model.Role;
-
 
 /**
  * Servlet implementation class ManagerServletRole
@@ -24,26 +25,59 @@ import ch.jherzig.ffhs.model.Role;
 @WebServlet("/manageRole")
 public class ManagerServletRole extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ManagerServletRole() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ManagerServletRole() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	// redirect urls
 	private static final String urlRoleList = "/rolelist.jsp";
 	private static final String urlRoleForm = "/roleform.jsp";
-    @EJB
+	@EJB
 	private RoleBean roleBean;
-    
-    
+
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		LoginBeanLocal login = (LoginBeanLocal) session.getAttribute("LoginBean");
+		if (login != null) {
+			if (login.getLogin()) {
+				isLogin(request, response);
+			} else {
+				isLogout(request, response);
+			}
+		} else {
+			isLogout(request, response);
+		}
+	}
+
+	private void isLogout(HttpServletRequest request, HttpServletResponse response) {
+		ServletContext sc = getServletContext();
+		
+		RequestDispatcher rdDefault = sc.getRequestDispatcher( "/index.jsp");
+
+		request.setAttribute("authority", "Keine Berechtigung für die Rollenverwaltung");
+
+		try {
+			rdDefault.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void isLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Role role = new Role();
 		// action
 		String action = request.getParameter("action");
@@ -84,7 +118,7 @@ public class ManagerServletRole extends HttpServlet {
 			if (role != null) {
 				roleBean.delete(role);
 			}
-			
+
 			// fall through -> fill list
 			// break;
 
@@ -102,14 +136,15 @@ public class ManagerServletRole extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Role role = new Role();
 		request.setCharacterEncoding("UTF-8");
 		Date date = new Date();
 		Timestamp timestamp = new Timestamp(date.getTime());
-		
+
 		// action
 		String action = request.getParameter("action");
 		// key
@@ -121,18 +156,17 @@ public class ManagerServletRole extends HttpServlet {
 		}
 
 		role.setName(request.getParameter("inpName"));
-		
 
 		switch (action) {
 		case "update":
-		
+
 			role.setChdt(timestamp);
 			roleBean.update(role);
 			// goto list
 			doGet(request, response);
 
 			break;
-			
+
 		case "create":
 
 			role.setCrdt(timestamp);

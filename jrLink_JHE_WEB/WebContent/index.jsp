@@ -5,16 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>jrLink_JHE</title>
 </head>
 <body>
-	<h2>SLL</h2>
-	<a href="manageTestServlet">here</a> to manage the data.
-	<br>
-	<a href="testListe.jsp">testListe</a> Anzeigen
+	<h2>jrLink_JHE</h2>
 	<br />
-	<br />
-		Click <a href="manage">here</a> to manage the data.<br />
+		Click <a href="manage">here</a> Benutzer bearbeiten<br />
 	<br>
 	<br />
 		Click <a href="manageRole">here</a> Rolen bearbeiten.<br />
@@ -22,10 +18,21 @@
 	<br />
 		Click <a href="manageLogin">here</a> login<br />
 	<br>
+	<br />
+	<c:if test="${LoginBean.login}">
+		Click <a href="manageLogin?action=logout&key=${LoginBean.user.key}">here</a> logout<br />
+	</c:if>
 	<br>
-	<h3>Hallo: ${inpNick}</h3>
 	<br>
-	<h3>Passwort: ${inpPasswort}</h3>
+	<c:if test="${not LoginBean.login}">
+		${authority}
+		<br />
+	</c:if>
+	<br />
+	<h3>Eingelogt: ${LoginBean.login}</h3>
+	<h3>Login Name: ${LoginBean.user.name}</h3>
+	
+	
 
 </body>
 </html>

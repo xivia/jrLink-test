@@ -12,7 +12,10 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "tuser")
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u ORDER BY u.key")
+@NamedQueries({
+	@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u ORDER BY u.key"), 
+	@NamedQuery(name = "User.findNick", query = "SELECT u FROM User u WHERE u.nick  = :nick") 
+})
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 

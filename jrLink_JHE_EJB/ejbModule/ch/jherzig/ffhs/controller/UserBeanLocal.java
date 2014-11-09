@@ -13,5 +13,6 @@ public interface UserBeanLocal {
 	public void update(User user);
 	public void create(User user);
 	public void delete(User user);
+	public User getByNick(String nick);
 
 }

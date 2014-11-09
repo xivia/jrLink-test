@@ -6,6 +6,8 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import ch.jherzig.ffhs.model.User;
 
@@ -16,20 +18,20 @@ import ch.jherzig.ffhs.model.User;
 @LocalBean
 public class UserBean implements UserBeanLocal {
 
-    /**
-     * Default constructor. 
-     */
-    public UserBean() {
-    }
-    
-    @PersistenceContext
-    private EntityManager em;
+	/**
+	 * Default constructor.
+	 */
+	public UserBean() {
+	}
+
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public User getByKey(Long key) {
 		User user = null;
 		user = em.find(User.class, key);
-		
+
 		return user;
 	}
 
@@ -43,15 +45,15 @@ public class UserBean implements UserBeanLocal {
 		if (getByKey(user.getKey()) != null) {
 			em.merge(user);
 			em.flush();
-		}		
+		}
 	}
 
 	@Override
 	public void create(User user) {
-		
+
 		em.persist(user);
 		em.flush();
-		
+
 	}
 
 	@Override
@@ -61,8 +63,20 @@ public class UserBean implements UserBeanLocal {
 			em.remove(userDelete);
 			em.flush();
 		}
-		
-	}
-	
 
+	}
+
+	@Override
+	public User getByNick(String nick) {
+		User user = null;
+		Query query = em.createNamedQuery("User.findNick");
+		try {
+			user = (User) query.setParameter("nick", nick).getSingleResult();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+
+		return user;
+	}
 }

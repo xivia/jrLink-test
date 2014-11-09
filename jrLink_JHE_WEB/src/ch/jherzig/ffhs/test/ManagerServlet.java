@@ -13,7 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import ch.jherzig.ffhs.controller.LoginBeanLocal;
 import ch.jherzig.ffhs.controller.RoleBean;
 import ch.jherzig.ffhs.controller.UserBean;
 import ch.jherzig.ffhs.model.Role;
@@ -49,6 +51,40 @@ public class ManagerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		HttpSession session = request.getSession();
+		LoginBeanLocal login = (LoginBeanLocal) session.getAttribute("LoginBean");
+		if (login != null) {
+			if (login.getLogin()) {
+				isLogin(request, response);
+			} else {
+				isLogout(request, response);
+			}
+		} else {
+			isLogout(request, response);
+		}
+		
+	}
+	
+	private void isLogout(HttpServletRequest request, HttpServletResponse response) {
+		ServletContext sc = getServletContext();
+		
+		RequestDispatcher rdDefault = sc.getRequestDispatcher( "/index.jsp");
+
+		request.setAttribute("authority", "Keine Berechtigung für die Benutzerverwaltung");
+
+		try {
+			rdDefault.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void isLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// action
 		String action = request.getParameter("action");
 		if (action == null) {

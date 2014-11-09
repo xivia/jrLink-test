@@ -1,8 +1,11 @@
 package ch.jherzig.ffhs.test;
 
 import java.io.IOException;
-import java.util.Collection;
 
+import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.rmi.PortableRemoteObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,8 +13,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import ch.jherzig.ffhs.model.Role;
+import ch.jherzig.ffhs.controller.LoginBean;
+import ch.jherzig.ffhs.controller.LoginBeanLocal;
+import ch.jherzig.ffhs.controller.UserBean;
 import ch.jherzig.ffhs.model.User;
 
 /**
@@ -20,38 +26,62 @@ import ch.jherzig.ffhs.model.User;
 @WebServlet("/manageLogin")
 public class ManagerServletLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ManagerServletLogin() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-    private String urlLoginForm = "/loginform.jsp";
-    private String urlindex = "/index.jsp";
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ManagerServletLogin() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	private String urlLoginForm = "/loginform.jsp";
+	private String urlIndex = "/index.jsp";
+	@EJB
+	private UserBean userBean;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		User user = null;
 		String action = request.getParameter("action");
 		if (action == null) {
 			action = "";
 		}
-
+		// key
+		String strKey = request.getParameter("key");
+		Long key = new Long(0);
+		if (strKey != null) {
+			key = Long.parseLong(strKey);
+			user = userBean.getByKey(key);
+		}
 
 		ServletContext sc = getServletContext();
+		HttpSession session = request.getSession();
 
 		switch (action) {
-		case "edit":
+		case "logout":
 
+			LoginBeanLocal login = (LoginBeanLocal) session.getAttribute("LoginBean");
+
+			if (login == null) {
+				login = new LoginBean();
+			}
+
+			if (login.getUser().getKey() == user.getKey()) {
+				login = new LoginBean();
+			}
+			session.setAttribute("LoginBean", login);
+
+			RequestDispatcher rdLogout = sc.getRequestDispatcher(urlIndex);
+
+			rdLogout.forward(request, response);
 
 			break;
 
 		default:
-
 
 			RequestDispatcher rdDefault = sc.getRequestDispatcher(urlLoginForm);
 
@@ -62,25 +92,34 @@ public class ManagerServletLogin extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext sc = getServletContext();
-		
-		User user = new User();
-		
-		user.setNick(request.getParameter("inpNick"));
-		user.setPasswort(request.getParameter("inpPasswort"));
-		
-		System.out.println("Nick: "+user.getNick());
-		System.out.println("Passwort: "+ user.getPasswort());
-		
-		
-		request.setAttribute("inpNick", user.getNick());
-		request.setAttribute("inpPasswort", user.getPasswort());
-		RequestDispatcher rdDefault = sc.getRequestDispatcher(urlindex);
+
+		HttpSession session = request.getSession();
+		LoginBeanLocal login = (LoginBeanLocal) session.getAttribute("LoginBean");
+
+		if (login == null) {
+			login = new LoginBean();
+		}
+
+		User user = userBean.getByNick((String) request.getParameter("inpNick"));
+
+		if (user != null) {
+			if (user.getPasswort().equals(request.getParameter("inpPasswort"))) {
+				login.setUser(user);
+				login.setLogin(true);
+			}
+		}
+
+		session.setAttribute("LoginBean", login);
+
+		RequestDispatcher rdDefault = sc.getRequestDispatcher(urlIndex);
 
 		rdDefault.forward(request, response);
+
 	}
 
 }

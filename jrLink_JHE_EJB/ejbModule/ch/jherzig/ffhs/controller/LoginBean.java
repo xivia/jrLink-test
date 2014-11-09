@@ -1,20 +1,21 @@
 package ch.jherzig.ffhs.controller;
 
 import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 
 import ch.jherzig.ffhs.model.User;
 
 /**
  * Session Bean implementation class LoginBean
  */
-@Stateless
+@Stateful
 @LocalBean
 public class LoginBean implements LoginBeanLocal {
 
-	private User user = null;
-	private Boolean login;
-    /**
+    private User user = null;
+	private Boolean login = false;
+
+	/**
      * Default constructor. 
      */
     public LoginBean() {
@@ -28,18 +29,18 @@ public class LoginBean implements LoginBeanLocal {
 
 	@Override
 	public User getUser() {
-		return user;
+		return this.user;
+	}
+
+	@Override
+	public Boolean getLogin() {
+		return this.login;
 	}
 
 	@Override
 	public void setLogin(Boolean login) {
 		this.login = login;
 		
-	}
-
-	@Override
-	public Boolean getLogin() {
-		return login;
 	}
 
 }
