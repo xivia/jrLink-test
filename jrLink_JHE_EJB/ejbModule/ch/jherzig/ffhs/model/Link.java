@@ -1,6 +1,7 @@
 package ch.jherzig.ffhs.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 
@@ -10,42 +11,47 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="tlink")
-@NamedQuery(name="Link.findAll", query="SELECT l FROM Link l")
+@NamedQuery(name="Link.findAll", query="SELECT l FROM Link l ORDER BY l.key")
 public class Link implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Long linkey;
+	@Column(name = "linkey")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_linkKey")
+	@SequenceGenerator(name = "seq_linkKey", sequenceName = "seq_linkKey", allocationSize = 0)
+	private Long key;
 
-	private String linname;
+	@Column(name = "linname")
+	private String name;
 
-	private String linvalue;
+	@Column(name = "linvalue")
+	private String value;
 
 	public Link() {
 	}
 
 	public Long getKey() {
-		return this.linkey;
+		return this.key;
 	}
 
 	public void setKey(Long linkey) {
-		this.linkey = linkey;
+		this.key = linkey;
 	}
 
 	public String getName() {
-		return this.linname;
+		return this.name;
 	}
 
 	public void setName(String linname) {
-		this.linname = linname;
+		this.name = linname;
 	}
 
 	public String getValue() {
-		return this.linvalue;
+		return this.value;
 	}
 
 	public void setValue(String linvalue) {
-		this.linvalue = linvalue;
+		this.value = linvalue;
 	}
 
 }
