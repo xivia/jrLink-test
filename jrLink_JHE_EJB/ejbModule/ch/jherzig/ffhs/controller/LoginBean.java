@@ -19,7 +19,7 @@ public class LoginBean implements LoginBeanLocal {
      * Default constructor. 
      */
     public LoginBean() {
-        // TODO Auto-generated constructor stub
+ 
     }
 
 	@Override

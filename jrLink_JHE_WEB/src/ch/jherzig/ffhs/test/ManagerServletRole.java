@@ -31,7 +31,7 @@ public class ManagerServletRole extends HttpServlet {
 	 */
 	public ManagerServletRole() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	// redirect urls

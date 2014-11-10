@@ -58,14 +58,14 @@
 			<tr>
 				<td>role</td>
 				<td>&nbsp;</td>
-				<td><select name="inprole" form="userform">
+				<td><select name="inprole">
 						<c:forEach var="item" items="${listrole}">
 							<c:choose>
 								<c:when test="${item.key == user.role.key}">
-									<option selected value=${item.key}>${item.name}</option>
+									<option selected value="${item.key}">${item.name}</option>
 								</c:when>
 								<c:otherwise>
-									<option value=${item.key}>${item.name}</option>
+									<option value="${item.key}">${item.name}</option>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>

@@ -3,9 +3,6 @@ package ch.jherzig.ffhs.test;
 import java.io.IOException;
 
 import javax.ejb.EJB;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.rmi.PortableRemoteObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -32,7 +29,7 @@ public class ManagerServletLogin extends HttpServlet {
 	 */
 	public ManagerServletLogin() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	private String urlLoginForm = "/loginform.jsp";
@@ -71,7 +68,8 @@ public class ManagerServletLogin extends HttpServlet {
 			}
 
 			if (login.getUser().getKey() == user.getKey()) {
-				login = new LoginBean();
+				login.setLogin(false);
+				login.setUser(new User());
 			}
 			session.setAttribute("LoginBean", login);
 
