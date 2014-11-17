@@ -1,6 +1,7 @@
 package ch.jherzig.ffhs.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -36,7 +37,8 @@ public class LinkBean implements LinkBeanLocal {
 
 	@Override
 	public Collection<Link> getLinkList() {
-		return em.createNamedQuery("Link.findAll", Link.class).getResultList();
+		List<Link> list = em.createNamedQuery("Link.findAll", Link.class).getResultList();
+		return list;
 	}
 
 	@Override

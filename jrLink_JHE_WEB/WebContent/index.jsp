@@ -10,11 +10,13 @@
 <body>
 	<h2>jrLink_JHE</h2>
 
-	<br> Click
-	<a href="manageLogin">here</a> login
-	<br> Click
-	<a href="manageLink">here</a> Link verwalten
-	<br />
+	<br>
+	Click <a href="manageLogin">here</a> login
+	<br> 
+	Click <a href="manageLink">here</a> Link verwalten
+	<br>
+	Click <a href="http://localhost:8080/jrLink_JHE_WEB/rest/service/link">here</a> Webservice Aufrufen
+	<br>
 	<br>
 	<br>
 	<c:if test="${LoginBean.login}">
