@@ -1,4 +1,4 @@
-package ch.jherzig.ffhs.test;
+package ch.jherzig.ffhs.manager;
 
 import java.io.IOException;
 

@@ -1,7 +1,9 @@
-package ch.jherzig.ffhs.test;
+package ch.jherzig.ffhs.manager;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -13,35 +15,42 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ch.jherzig.ffhs.controller.LinkBean;
 import ch.jherzig.ffhs.controller.LoginBeanLocal;
-import ch.jherzig.ffhs.model.Link;
+import ch.jherzig.ffhs.controller.RoleBean;
+import ch.jherzig.ffhs.controller.UserBean;
+import ch.jherzig.ffhs.model.Role;
+import ch.jherzig.ffhs.model.User;
 
 /**
- * Servlet implementation class ManagerServletLink
+ * Servlet implementation class ManagerServlet
  */
-@WebServlet("/manageLink")
-public class ManagerServletLink extends HttpServlet {
+@WebServlet("/manage")
+public class ManagerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ManagerServletLink() {
+	public ManagerServlet() {
 		super();
-
 	}
 
-	private static final String urlUserList = "/linklist.jsp";
-	private static final String urlUserForm = "/linkform.jsp";
+	// redirect urls
+	private static final String urlUserList = "/userlist.jsp";
+	private static final String urlUserForm = "/userform.jsp";
+
 	@EJB
-	private LinkBean linkBean;
+	private UserBean userBean;
+	private User user;
+	@EJB
+	private RoleBean roleBean;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		HttpSession session = request.getSession();
 		LoginBeanLocal login = (LoginBeanLocal) session.getAttribute("LoginBean");
 		if (login != null) {
@@ -53,21 +62,29 @@ public class ManagerServletLink extends HttpServlet {
 		} else {
 			isLogout(request, response);
 		}
+		
 	}
-
-	private void isLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+	
+	private void isLogout(HttpServletRequest request, HttpServletResponse response) {
 		ServletContext sc = getServletContext();
+		
+		RequestDispatcher rdDefault = sc.getRequestDispatcher( "/index.jsp");
 
-		RequestDispatcher rdDefault = sc.getRequestDispatcher(urlUserList);
+		request.setAttribute("authority", "Keine Berechtigung für die Benutzerverwaltung");
 
-		request.setAttribute("resultList", linkBean.getLinkList());
-		rdDefault.forward(request, response);
+		try {
+			rdDefault.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	private void isLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Link link = null;
 		// action
 		String action = request.getParameter("action");
 		if (action == null) {
@@ -78,16 +95,20 @@ public class ManagerServletLink extends HttpServlet {
 		Long key = new Long(0);
 		if (strKey != null) {
 			key = Long.parseLong(strKey);
-			link = linkBean.getByKey(key);
+			user = userBean.getByKey(key);
 		}
 
 		ServletContext sc = getServletContext();
+		Collection<Role> listRole = roleBean.getRoleList();
 
 		switch (action) {
 		case "edit":
 			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlUserForm);
+			
+			
 
-			request.setAttribute("link", link);
+			request.setAttribute("listrole", listRole);
+			request.setAttribute("user", user);
 			request.setAttribute("nextAction", "update");
 			rdEdit.forward(request, response);
 
@@ -97,6 +118,7 @@ public class ManagerServletLink extends HttpServlet {
 
 			RequestDispatcher rdNew = sc.getRequestDispatcher(urlUserForm);
 
+			request.setAttribute("listrole", listRole);
 			request.setAttribute("nextAction", "create");
 			rdNew.forward(request, response);
 
@@ -104,23 +126,24 @@ public class ManagerServletLink extends HttpServlet {
 
 		case "delete":
 
-			if (link != null) {
-				linkBean.delete(link);
+			if (user != null) {
+				userBean.delete(user);
 			}
-
+			
 			// fall through -> fill list
 			// break;
 
 		default:
 
+			Collection<User> ejbResult = userBean.getUserList();
+
 			RequestDispatcher rdDefault = sc.getRequestDispatcher(urlUserList);
-			
-			request.setAttribute("resultList", linkBean.getLinkList());
+
+			request.setAttribute("resultList", ejbResult);
 			rdDefault.forward(request, response);
 
 			break;
 		}
-
 	}
 
 	/**
@@ -128,7 +151,12 @@ public class ManagerServletLink extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Link link = new Link();
+		request.setCharacterEncoding("UTF-8");
+		Date date = new Date();
+		Timestamp timestamp = new Timestamp(date.getTime());
+		User user = new User();
+		Role role = new Role();
+		
 		// action
 		String action = request.getParameter("action");
 		// key
@@ -136,25 +164,36 @@ public class ManagerServletLink extends HttpServlet {
 		Long key = null;
 		if (strKey != "") {
 			key = Long.parseLong(strKey);
-			link = linkBean.getByKey(key);
+			user = userBean.getByKey(key);
 		}
+		if (request.getParameter("inprole") != "") {
+			long roleKey = Long.parseLong(request.getParameter("inprole"));
+			role = roleBean.getByKey(roleKey);
+		}
+		
 
-		link.setName(request.getParameter("inpName"));
-		link.setValue(request.getParameter("inpValue"));
+		user.setName(request.getParameter("inpName"));
+		user.setVorname(request.getParameter("inpVorName"));
+		user.setNick(request.getParameter("inpNick"));
+		user.setMail(request.getParameter("inpMail"));
+		user.setPasswort(request.getParameter("inpPasswort"));
+		user.setRole(role);
+			
 
 		switch (action) {
 		case "update":
-
-
-			linkBean.update(link);
+		
+			user.setChdt(timestamp);
+			userBean.update(user);
 			// goto list
 			doGet(request, response);
 
 			break;
-
+			
 		case "create":
 
-			linkBean.create(link);
+			user.setCrdt(timestamp);
+			userBean.create(user);
 			// goto list
 			doGet(request, response);
 

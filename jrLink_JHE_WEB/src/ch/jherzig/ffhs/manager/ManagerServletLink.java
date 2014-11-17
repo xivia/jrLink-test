@@ -1,9 +1,7 @@
-package ch.jherzig.ffhs.test;
+package ch.jherzig.ffhs.manager;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -15,30 +13,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ch.jherzig.ffhs.controller.LinkBean;
 import ch.jherzig.ffhs.controller.LoginBeanLocal;
-import ch.jherzig.ffhs.controller.RoleBean;
-import ch.jherzig.ffhs.model.Role;
+import ch.jherzig.ffhs.model.Link;
 
 /**
- * Servlet implementation class ManagerServletRole
+ * Servlet implementation class ManagerServletLink
  */
-@WebServlet("/manageRole")
-public class ManagerServletRole extends HttpServlet {
+@WebServlet("/manageLink")
+public class ManagerServletLink extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ManagerServletRole() {
+	public ManagerServletLink() {
 		super();
 
 	}
 
-	// redirect urls
-	private static final String urlRoleList = "/rolelist.jsp";
-	private static final String urlRoleForm = "/roleform.jsp";
+	private static final String urlUserList = "/linklist.jsp";
+	private static final String urlUserForm = "/linkform.jsp";
 	@EJB
-	private RoleBean roleBean;
+	private LinkBean linkBean;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -58,27 +55,19 @@ public class ManagerServletRole extends HttpServlet {
 		}
 	}
 
-	private void isLogout(HttpServletRequest request, HttpServletResponse response) {
+	private void isLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		ServletContext sc = getServletContext();
-		
-		RequestDispatcher rdDefault = sc.getRequestDispatcher( "/index.jsp");
 
-		request.setAttribute("authority", "Keine Berechtigung für die Rollenverwaltung");
+		RequestDispatcher rdDefault = sc.getRequestDispatcher(urlUserList);
 
-		try {
-			rdDefault.forward(request, response);
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		request.setAttribute("resultList", linkBean.getLinkList());
+		rdDefault.forward(request, response);
 
 	}
 
 	private void isLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Role role = new Role();
+		Link link = null;
 		// action
 		String action = request.getParameter("action");
 		if (action == null) {
@@ -89,16 +78,16 @@ public class ManagerServletRole extends HttpServlet {
 		Long key = new Long(0);
 		if (strKey != null) {
 			key = Long.parseLong(strKey);
-			role = roleBean.getByKey(key);
+			link = linkBean.getByKey(key);
 		}
 
 		ServletContext sc = getServletContext();
 
 		switch (action) {
 		case "edit":
-			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlRoleForm);
+			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlUserForm);
 
-			request.setAttribute("role", role);
+			request.setAttribute("link", link);
 			request.setAttribute("nextAction", "update");
 			rdEdit.forward(request, response);
 
@@ -106,7 +95,7 @@ public class ManagerServletRole extends HttpServlet {
 
 		case "new":
 
-			RequestDispatcher rdNew = sc.getRequestDispatcher(urlRoleForm);
+			RequestDispatcher rdNew = sc.getRequestDispatcher(urlUserForm);
 
 			request.setAttribute("nextAction", "create");
 			rdNew.forward(request, response);
@@ -115,8 +104,8 @@ public class ManagerServletRole extends HttpServlet {
 
 		case "delete":
 
-			if (role != null) {
-				roleBean.delete(role);
+			if (link != null) {
+				linkBean.delete(link);
 			}
 
 			// fall through -> fill list
@@ -124,15 +113,14 @@ public class ManagerServletRole extends HttpServlet {
 
 		default:
 
-			Collection<Role> ejbResult = roleBean.getRoleList();
-
-			RequestDispatcher rdDefault = sc.getRequestDispatcher(urlRoleList);
-
-			request.setAttribute("resultList", ejbResult);
+			RequestDispatcher rdDefault = sc.getRequestDispatcher(urlUserList);
+			
+			request.setAttribute("resultList", linkBean.getLinkList());
 			rdDefault.forward(request, response);
 
 			break;
 		}
+
 	}
 
 	/**
@@ -140,11 +128,7 @@ public class ManagerServletRole extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Role role = new Role();
-		request.setCharacterEncoding("UTF-8");
-		Date date = new Date();
-		Timestamp timestamp = new Timestamp(date.getTime());
-
+		Link link = new Link();
 		// action
 		String action = request.getParameter("action");
 		// key
@@ -152,16 +136,17 @@ public class ManagerServletRole extends HttpServlet {
 		Long key = null;
 		if (strKey != "") {
 			key = Long.parseLong(strKey);
-			role = roleBean.getByKey(key);
+			link = linkBean.getByKey(key);
 		}
 
-		role.setName(request.getParameter("inpName"));
+		link.setName(request.getParameter("inpName"));
+		link.setValue(request.getParameter("inpValue"));
 
 		switch (action) {
 		case "update":
 
-			role.setChdt(timestamp);
-			roleBean.update(role);
+
+			linkBean.update(link);
 			// goto list
 			doGet(request, response);
 
@@ -169,8 +154,7 @@ public class ManagerServletRole extends HttpServlet {
 
 		case "create":
 
-			role.setCrdt(timestamp);
-			roleBean.create(role);
+			linkBean.create(link);
 			// goto list
 			doGet(request, response);
 
