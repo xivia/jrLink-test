@@ -1,8 +1,6 @@
 package ch.jherzig.ffhs.manager;
 
 import java.io.IOException;
-import java.util.Collection;
-
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
