@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -16,7 +17,7 @@ import ch.jherzig.ffhs.controller.LinkBean;
 import ch.jherzig.ffhs.model.Link;
 
 @Path("service/link")
-//@Statless wird benötigt sonst funktioniert das @EJB nicht
+// @Statless wird benötigt sonst funktioniert das @EJB nicht
 @Stateless
 public class LnikRestService {
 
@@ -25,7 +26,7 @@ public class LnikRestService {
 
 	public LnikRestService() {
 	}
-	
+
 	@EJB
 	private LinkBean linkBean;
 
@@ -37,9 +38,19 @@ public class LnikRestService {
 		Collection<Link> linkList = linkBean.getLinkList();
 
 		for (Link link : linkList) {
-			result = result +"Name: "+ link.getName()+"<br>";
+			result = result + "Name: " + link.getName() + "<br>";
 		}
-		
+
 		return Response.status(200).entity(result).build();
+	}
+
+	@GET
+	@Path("/print/{id}")
+	@Produces("application/json")
+	public Link produceJSON(@PathParam("id") String id) {
+
+		Link link = linkBean.getByKey(Long.parseLong(id)); 
+
+		return link;
 	}
 }
