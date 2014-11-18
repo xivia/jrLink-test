@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h2>Login jrLink_JHE</h2>
-		
+
 	<form name="inpWsTestForm" method="post"
 		action="manageWsTest?action=loudLink" id="wsTestForm"
 		accept-charset="UTF-8" onsubmit="return validate();">
@@ -21,11 +21,6 @@
 			<tr>
 				<td>&nbsp;</td>
 			</tr>
-			<c:if test="${loudLink}">
-			<tr>
-			    <td>Test loudLink</td>
-			</tr>
-			</c:if>
 			<tr>
 				<td colspan="3">&nbsp;</td>
 			</tr>
@@ -41,9 +36,30 @@
 			</tr>
 		</table>
 	</form>
-	
-	
-	Click <a href="http://localhost:8080/jrLink_JHE_WEB/rest/service/link">here</a> Einfache Liste der Links als WebServives
+
+	<table>
+		<c:if test="${exeption}">
+			<tr>
+				<td>${exceptionMessage}</td>
+			</tr>
+		</c:if>
+		<c:if test="${loudLink}">
+			<tr>
+				<td>Name: ${link.name}</td>
+			</tr>
+			<tr>
+				<td>Value: ${link.value}</td>
+			</tr>
+			<tr>
+				<td>Key: ${link.key}</td>
+			</tr>
+		</c:if>
+	</table>
+
+
+	Click
+	<a href="http://localhost:8080/jrLink_JHE_WEB/rest/service/link">here</a>
+	Einfache Liste der Links als WebServives
 
 </body>
 </html>

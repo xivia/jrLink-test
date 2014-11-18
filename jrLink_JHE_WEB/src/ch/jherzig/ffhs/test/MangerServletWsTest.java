@@ -78,7 +78,7 @@ public class MangerServletWsTest extends HttpServlet {
 		switch (action) {
 		case "loudLink":
 			Boolean loudLink = false;
-			System.out.println("http://localhost:8080/jrLink_JHE_WEB/rest/service/link/print/2");
+			Boolean exeption = false;
 
 			ClientRequest clientRequest = new ClientRequest("http://localhost:8080/jrLink_JHE_WEB/rest/service/link/print/" + strID);
 			Link link = null;
@@ -86,20 +86,26 @@ public class MangerServletWsTest extends HttpServlet {
 				ClientResponse<Link> clientResponse = clientRequest.get(Link.class);
 				link = clientResponse.getEntity();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 			if (link != null) {
 				loudLink = true;
 				request.setAttribute("loudLink", loudLink);
 				request.setAttribute("link", link);
-				System.out.println("Link Name: " + link.getName());
-				System.out.println("Link Value: " + link.getValue());
-				System.out.println("Link Key: " + link.getKey());
+			} else {
+				String exceptionMessage;
+				exeption = true;
+				request.setAttribute("exeption", exeption);
+				if (strID.equals("")) {
+					exceptionMessage = "Es muss eine ID eingetragen werden!";
+				} else {
+					exceptionMessage = "Es wurde keine Pasender Link mit dieser ID " + strID + " gefunden";
+				}
+				request.setAttribute("exceptionMessage", exceptionMessage);
 			}
 
 			doGet(request, response);
-			
+
 			break;
 
 		default:
