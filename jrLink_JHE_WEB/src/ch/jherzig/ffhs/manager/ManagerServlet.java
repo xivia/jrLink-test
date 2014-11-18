@@ -20,6 +20,7 @@ import ch.jherzig.ffhs.controller.RoleBean;
 import ch.jherzig.ffhs.controller.UserBean;
 import ch.jherzig.ffhs.model.Role;
 import ch.jherzig.ffhs.model.User;
+import ch.jherzig.ffhs.resource.UrlConst;
 
 /**
  * Servlet implementation class ManagerServlet
@@ -36,8 +37,8 @@ public class ManagerServlet extends HttpServlet {
 	}
 
 	// redirect urls
-	private static final String urlUserList = "/userlist.jsp";
-	private static final String urlUserForm = "/userform.jsp";
+	private static final String urlUserList = UrlConst.getUrluserlist();
+	private static final String urlUserForm = UrlConst.getUrluserfrom();
 
 	@EJB
 	private UserBean userBean;
@@ -68,7 +69,7 @@ public class ManagerServlet extends HttpServlet {
 	private void isLogout(HttpServletRequest request, HttpServletResponse response) {
 		ServletContext sc = getServletContext();
 		
-		RequestDispatcher rdDefault = sc.getRequestDispatcher( "/index.jsp");
+		RequestDispatcher rdDefault = sc.getRequestDispatcher( UrlConst.getIndex());
 
 		request.setAttribute("authority", "Keine Berechtigung für die Benutzerverwaltung");
 

@@ -1,6 +1,7 @@
 package ch.jherzig.ffhs.manager;
 
 import java.io.IOException;
+
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import ch.jherzig.ffhs.controller.LinkBean;
 import ch.jherzig.ffhs.controller.LoginBeanLocal;
 import ch.jherzig.ffhs.model.Link;
+import ch.jherzig.ffhs.resource.UrlConst;
 
 /**
  * Servlet implementation class ManagerServletLink
@@ -30,8 +32,8 @@ public class ManagerServletLink extends HttpServlet {
 
 	}
 
-	private static final String urlUserList = "/linklist.jsp";
-	private static final String urlUserForm = "/linkform.jsp";
+	private static final String urlLinkList = UrlConst.getUrllinklist();
+	private static final String urlLinkForm = UrlConst.getUrllinkform();
 	@EJB
 	private LinkBean linkBean;
 
@@ -57,7 +59,7 @@ public class ManagerServletLink extends HttpServlet {
 
 		ServletContext sc = getServletContext();
 
-		RequestDispatcher rdDefault = sc.getRequestDispatcher(urlUserList);
+		RequestDispatcher rdDefault = sc.getRequestDispatcher(urlLinkList);
 
 		request.setAttribute("resultList", linkBean.getLinkList());
 		rdDefault.forward(request, response);
@@ -83,7 +85,7 @@ public class ManagerServletLink extends HttpServlet {
 
 		switch (action) {
 		case "edit":
-			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlUserForm);
+			RequestDispatcher rdEdit = sc.getRequestDispatcher(urlLinkForm);
 
 			request.setAttribute("link", link);
 			request.setAttribute("nextAction", "update");
@@ -93,7 +95,7 @@ public class ManagerServletLink extends HttpServlet {
 
 		case "new":
 
-			RequestDispatcher rdNew = sc.getRequestDispatcher(urlUserForm);
+			RequestDispatcher rdNew = sc.getRequestDispatcher(urlLinkForm);
 
 			request.setAttribute("nextAction", "create");
 			rdNew.forward(request, response);
@@ -111,8 +113,8 @@ public class ManagerServletLink extends HttpServlet {
 
 		default:
 
-			RequestDispatcher rdDefault = sc.getRequestDispatcher(urlUserList);
-			
+			RequestDispatcher rdDefault = sc.getRequestDispatcher(urlLinkList);
+
 			request.setAttribute("resultList", linkBean.getLinkList());
 			rdDefault.forward(request, response);
 
@@ -142,7 +144,6 @@ public class ManagerServletLink extends HttpServlet {
 
 		switch (action) {
 		case "update":
-
 
 			linkBean.update(link);
 			// goto list

@@ -10,11 +10,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 
 import ch.jherzig.ffhs.controller.UserBean;
 import ch.jherzig.ffhs.model.Link;
+import ch.jherzig.ffhs.resource.UrlConst;
 
 /**
  * Servlet implementation class MangerServletWsTest
@@ -31,7 +33,7 @@ public class MangerServletWsTest extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
-	private String urlWsTest = "/ws/wstest.jsp";
+	private String urlWsTest = UrlConst.getUrlwstest();
 	@EJB
 	private UserBean userBean;
 
@@ -80,7 +82,7 @@ public class MangerServletWsTest extends HttpServlet {
 			Boolean loudLink = false;
 			Boolean exeption = false;
 
-			ClientRequest clientRequest = new ClientRequest("http://localhost:8080/jrLink_JHE_WEB/rest/service/link/print/" + strID);
+			ClientRequest clientRequest = new ClientRequest(UrlConst.getWslinkprinturl() + strID);
 			Link link = null;
 			try {
 				ClientResponse<Link> clientResponse = clientRequest.get(Link.class);

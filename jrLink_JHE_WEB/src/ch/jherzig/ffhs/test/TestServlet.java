@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import ch.jherzig.ffhs.controller.LinkBean;
 import ch.jherzig.ffhs.controller.RoleBean;
 import ch.jherzig.ffhs.controller.UserBean;
+import ch.jherzig.ffhs.resource.UrlConst;
 
 /**
  * Servlet implementation class TestServlet
@@ -43,7 +44,7 @@ public class TestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext sc = getServletContext();
-		String urlList = "/testListe.jsp";
+		String urlList = UrlConst.getUrltestliste();
 		
 		RequestDispatcher rdDefault = sc.getRequestDispatcher(urlList);
 		

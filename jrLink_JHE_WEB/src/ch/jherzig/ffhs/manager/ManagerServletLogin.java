@@ -16,6 +16,7 @@ import ch.jherzig.ffhs.controller.LoginBean;
 import ch.jherzig.ffhs.controller.LoginBeanLocal;
 import ch.jherzig.ffhs.controller.UserBean;
 import ch.jherzig.ffhs.model.User;
+import ch.jherzig.ffhs.resource.UrlConst;
 
 /**
  * Servlet implementation class ManagerServletLogin
@@ -32,8 +33,8 @@ public class ManagerServletLogin extends HttpServlet {
 
 	}
 
-	private String urlLoginForm = "/loginform.jsp";
-	private String urlIndex = "/index.jsp";
+	private String urlLoginForm = UrlConst.getUrlloginform();
+
 	@EJB
 	private UserBean userBean;
 
@@ -73,7 +74,7 @@ public class ManagerServletLogin extends HttpServlet {
 			}
 			session.setAttribute("LoginBean", login);
 
-			RequestDispatcher rdLogout = sc.getRequestDispatcher(urlIndex);
+			RequestDispatcher rdLogout = sc.getRequestDispatcher(UrlConst.getIndex());
 
 			rdLogout.forward(request, response);
 
@@ -114,7 +115,7 @@ public class ManagerServletLogin extends HttpServlet {
 
 		session.setAttribute("LoginBean", login);
 
-		RequestDispatcher rdDefault = sc.getRequestDispatcher(urlIndex);
+		RequestDispatcher rdDefault = sc.getRequestDispatcher(UrlConst.getIndex());
 
 		rdDefault.forward(request, response);
 

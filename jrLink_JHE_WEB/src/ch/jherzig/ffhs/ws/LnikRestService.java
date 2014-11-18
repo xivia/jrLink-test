@@ -33,12 +33,12 @@ public class LnikRestService {
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	public Response test() {
-		String result = "Eine Liste vom LnikRestService <br>";
+		String result = "<h2>Eine Liste vom LnikRestService </h2> <br>";
 
 		Collection<Link> linkList = linkBean.getLinkList();
 
 		for (Link link : linkList) {
-			result = result + "Name: " + link.getName() + "<br>";
+			result = result + "ID: " + link.getKey() + "  | Name: " + link.getName() + " | Value: " + link.getValue() + "<br>";
 		}
 
 		return Response.status(200).entity(result).build();
@@ -49,7 +49,7 @@ public class LnikRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Link produceJSON(@PathParam("id") String id) {
 
-		Link link = linkBean.getByKey(Long.parseLong(id)); 
+		Link link = linkBean.getByKey(Long.parseLong(id));
 
 		return link;
 	}

@@ -56,8 +56,7 @@
 		</c:if>
 	</table>
 
-
-	Click
+	<br> Click
 	<a href="http://localhost:8080/jrLink_JHE_WEB/rest/service/link">here</a>
 	Einfache Liste der Links als WebServives
 

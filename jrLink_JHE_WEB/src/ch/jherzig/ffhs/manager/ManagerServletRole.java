@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import ch.jherzig.ffhs.controller.LoginBeanLocal;
 import ch.jherzig.ffhs.controller.RoleBean;
 import ch.jherzig.ffhs.model.Role;
+import ch.jherzig.ffhs.resource.UrlConst;
 
 /**
  * Servlet implementation class ManagerServletRole
@@ -35,8 +36,8 @@ public class ManagerServletRole extends HttpServlet {
 	}
 
 	// redirect urls
-	private static final String urlRoleList = "/rolelist.jsp";
-	private static final String urlRoleForm = "/roleform.jsp";
+	private static final String urlRoleList = UrlConst.getUrlrolelist();
+	private static final String urlRoleForm = UrlConst.getUrlroleform();
 	@EJB
 	private RoleBean roleBean;
 
@@ -61,7 +62,7 @@ public class ManagerServletRole extends HttpServlet {
 	private void isLogout(HttpServletRequest request, HttpServletResponse response) {
 		ServletContext sc = getServletContext();
 		
-		RequestDispatcher rdDefault = sc.getRequestDispatcher( "/index.jsp");
+		RequestDispatcher rdDefault = sc.getRequestDispatcher(UrlConst.getIndex());
 
 		request.setAttribute("authority", "Keine Berechtigung für die Rollenverwaltung");
 
