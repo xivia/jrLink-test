@@ -15,7 +15,7 @@
 	<br> 
 	Click <a href="manageLink">here</a> Link verwalten
 	<br>
-	Click <a href="http://localhost:8080/jrLink_JHE_WEB/rest/service/link">here</a> Webservice Aufrufen
+	Click <a href="manageWsTest">here</a> Webservice Test Seite:)
 	<br>
 	<br>
 	<br>
