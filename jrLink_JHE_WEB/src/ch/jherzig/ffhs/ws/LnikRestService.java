@@ -46,7 +46,7 @@ public class LnikRestService {
 
 	@GET
 	@Path("/print/{id}")
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Link produceJSON(@PathParam("id") String id) {
 
 		Link link = linkBean.getByKey(Long.parseLong(id)); 
